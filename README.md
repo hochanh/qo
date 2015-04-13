@@ -8,7 +8,7 @@ qo: empowered QuOtes in fish-shell
 - Put `alias` and `fish_greeting` in to your fish as follow
 
 ```bash
-alias qo="python /path/to/your/qo/qo.py -q /path/to/your/quotes/dir" -f you/quotes/file"
+alias qo="python /path/to/your/qo/qo.py -q /path/to/your/quotes/dir -f you/quotes/file"
 
 set -e fish_greeting
 function fish_greeting

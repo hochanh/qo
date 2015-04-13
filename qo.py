@@ -10,7 +10,7 @@ from __future__ import with_statement
 import os, random
 from optparse import OptionParser, OptionGroup
 
-def random_line(quotefile):
+def _random_line(quotefile):
     """Return a random line from a file.
 
     Require: Quote file must fit into memory
@@ -48,13 +48,13 @@ class QuoteDict(object):
         path = os.path.join(os.path.expanduser(self.quotedir), self.name)
         if os.path.exists(path):
             with open(path, 'r') as qfile:
-                qline = random_line(qfile)
+                qline = _random_line(qfile)
                 self.quotes = _quote_from_quoteline(qline)
 
     def print_quote(self, author=True):
         print self.quotes['content']
         if author:
-            print "-", self.quotes['author']
+            print " -", self.quotes['author']
 
 def _build_parser():
     """Return a parser for the command-line interface."""
@@ -84,7 +84,7 @@ def _main():
     try:
         qd.print_quote(author=options.author)
     except:
-        print ""
+        print "Freedom is not worth having if it does not include the freedom to make mistakes. \n - Mahatma Gandhi"
 
 if __name__ == '__main__':
     _main()

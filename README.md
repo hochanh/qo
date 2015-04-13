@@ -1,10 +1,10 @@
 qo: empowered QuOtes in fish-shell
 ==================================
 
-## Install
+## Installation
 
 - Requirement: Python2
-- Download `qo.py` and `quotes` at put it wherever you like.
+- Download `qo.py` and `quotes`, put it wherever you like.
 - Put `alias` and `fish_greeting` in to your fish as follow
 
 ```bash
@@ -16,7 +16,7 @@ function fish_greeting
 end
 ```
 
-## Configurations
+## Configuration
 
 ### Quotes file
 

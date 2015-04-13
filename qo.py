@@ -64,7 +64,7 @@ def _build_parser():
     config = OptionGroup(parser, "Configuration Options")
     config.add_option("-f", "--file", dest="name", default="quotes",
                       help="the quotes file", metavar="FILE")
-    config.add_option("-q", "--quote-dir", dest="quotedir", default="",
+    config.add_option("-q", "--quote-dir", dest="quotedir", default=".",
                       help="the quotes directory", metavar="DIR")
     parser.add_option_group(config)
 

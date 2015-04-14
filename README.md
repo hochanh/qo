@@ -12,7 +12,14 @@ alias qo="python /path/to/your/qo/qo.py -d /path/to/your/quotes/dir -f /path/to/
 
 set -e fish_greeting
 function fish_greeting
-    qo
+    echo ""
+    set qo (qo)
+    set -l textcol red
+    set -l author  cyan
+    set_color $textcol -b normal
+    echo -n -e -s $qo | cut -d '|' -f1 | sed 's/^/  /'
+    set_color $author -b normal 
+    echo -n -e -s $qo | cut -d '|' -f2 | sed 's/^/  -/'
 end
 ```
 

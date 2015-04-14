@@ -49,7 +49,7 @@ class QuoteDict(object):
                 rand_quote = _quote_from_quoteline(qline)
         print rand_quote['content']
         if author:
-            print " -", rand_quote['author']
+            print "|", rand_quote['author']
 
     def sort_quote(self):
         "Sort quotes using UNIX command sort"

@@ -17,9 +17,9 @@ function fish_greeting
     set -l textcol red
     set -l author  cyan
     set_color $textcol -b normal
-    echo -n -e -s $qo | cut -d '|' -f1 | sed 's/^/  /'
+    echo -e -s $qo | cut -d '|' -f1 | sed 's/^/  /'
     set_color $author -b normal 
-    echo -n -e -s $qo | cut -d '|' -f2 | sed 's/^/  -/'
+    echo -s $qo | cut -d '|' -f2 | sed 's/^/  -/'
 end
 ```
 

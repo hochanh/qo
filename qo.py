@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 
-""" Random quotes for embracing power """
+"""Random quotes for embracing power"""
 
-import os, random
+import os
+import random
+import sys
 from optparse import OptionParser, OptionGroup
 from subprocess import call
+
+def PrintErrMsg(msg):
+    print msg
+    sys.exit(1)
 
 def _random_line(quotefile):
     """Return a random line from a file.
@@ -43,10 +49,14 @@ class QuoteDict(object):
     def print_quote(self, author=True):
         "Print quote at random"
         path = os.path.join(os.path.expanduser(self.quotedir), self.name)
+        if os.path.isdir(path):
+            PrintErrMsg("Invalid Path!")
         if os.path.exists(path):
             with open(path, 'r') as qfile:
                 qline = _random_line(qfile)
                 rand_quote = _quote_from_quoteline(qline)
+        else:
+            PrintErrMsg("Quote file not found!")
         print rand_quote['content']
         if author:
             print "|", rand_quote['author']
@@ -56,12 +66,17 @@ class QuoteDict(object):
         path = os.path.join(os.path.expanduser(self.quotedir), self.name)
         if os.path.exists(path):
             call(["sort", path,  "-o", path])
+        else:
+            PrintErrMsg("Command not found, are you using UNIX?")
 
     def edit_quote(self, editor="vi"):
         "Edit quotes using your text editor, default: vi"
         path = os.path.join(os.path.expanduser(self.quotedir), self.name)
         if os.path.exists(path):
-            call([editor, path])
+            try:
+                call([editor, path])
+            except:
+                PrintErrMsg("Default editor (vi) is not available, set your text editor using '--editor'")
 
 def _build_parser():
     """Return a parser for the command-line interface."""
@@ -99,16 +114,13 @@ def _main():
     (options, args) = _build_parser().parse_args()
 
     qd = QuoteDict(quotedir=options.quotedir, name=options.name)
-    try:
-        if options.sort:
-            qd.sort_quote()
-            print "Quotes sorted!"
-        elif options.edit:
-            qd.edit_quote(editor=options.editor)
-        else:
-            qd.print_quote(author=options.author)
-    except:
-        print "Freedom is not worth having if it does not include the freedom to make mistakes. \n - Mahatma Gandhi"
+    if options.sort:
+        qd.sort_quote()
+        print "Quotes sorted!"
+    elif options.edit:
+        qd.edit_quote(editor=options.editor)
+    else:
+        qd.print_quote(author=options.author)
 
 if __name__ == '__main__':
     _main()

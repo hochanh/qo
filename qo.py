@@ -72,7 +72,7 @@ class QuoteDict(object):
         else:
             PrintErrMsg("Quote file not found!")
         print my_quote['content']
-        print "~", my_quote['author']
+        print "|", my_quote['author']
 
     def sort_quote(self):
         "Sort quotes using UNIX command sort"

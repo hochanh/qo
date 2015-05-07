@@ -3,6 +3,7 @@
 """Random quotes for embracing power"""
 
 import os
+import time
 import random
 import sys
 from optparse import OptionParser, OptionGroup
@@ -21,6 +22,16 @@ def _random_line(quotefile):
         if random.randrange(num + 2): continue
         line = qline
     return line
+
+def _one_quote_a_day(quotefile):
+    """Return only one quote for one particular day 
+    Require: Quote file must fit into memory
+    """
+    # Days since the epoch
+    today = time.time() / 60 / 60 / 24
+    lines = quotefile.readlines()
+    today_line = int(today) % len(lines)
+    return lines[today_line]
 
 def _quote_from_quoteline(quoteline):
     """Parse a quoteline (from a quote file) and return a quote.
@@ -46,20 +57,22 @@ class QuoteDict(object):
         self.name = name
         self.quotedir = quotedir
 
-    def print_quote(self, author=True):
+    def print_quote(self, rand=True):
         "Print quote at random"
         path = os.path.join(os.path.expanduser(self.quotedir), self.name)
         if os.path.isdir(path):
             PrintErrMsg("Invalid Path!")
         if os.path.exists(path):
             with open(path, 'r') as qfile:
-                qline = _random_line(qfile)
-                rand_quote = _quote_from_quoteline(qline)
+                if rand:
+                    qline = _random_line(qfile)
+                else:
+                    qline = _one_quote_a_day(qfile)
+                my_quote = _quote_from_quoteline(qline)
         else:
             PrintErrMsg("Quote file not found!")
-        print rand_quote['content']
-        if author:
-            print "|", rand_quote['author']
+        print my_quote['content']
+        print "~", my_quote['author']
 
     def sort_quote(self):
         "Sort quotes using UNIX command sort"
@@ -102,9 +115,9 @@ def _build_parser():
     parser.add_option_group(config)
 
     output = OptionGroup(parser, "Output Options")
-    output.add_option("-n", "--no-author",
-                      action="store_false", dest="author", default=True,
-                      help="don't print the quote's author")
+    output.add_option("-n", "--no-random",
+                      action="store_false", dest="rand", default=True,
+                      help="print one quote for one particular day")
     parser.add_option_group(output)
 
     return parser
@@ -120,7 +133,7 @@ def _main():
     elif options.edit:
         qd.edit_quote(editor=options.editor)
     else:
-        qd.print_quote(author=options.author)
+        qd.print_quote(rand=options.rand)
 
 if __name__ == '__main__':
     _main()

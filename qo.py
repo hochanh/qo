@@ -57,7 +57,7 @@ class QuoteDict(object):
         self.name = name
         self.quotedir = quotedir
 
-    def print_quote(self, rand=True):
+    def print_quote(self, rand=False):
         "Print quote at random"
         path = os.path.join(os.path.expanduser(self.quotedir), self.name)
         if os.path.isdir(path):
@@ -115,9 +115,9 @@ def _build_parser():
     parser.add_option_group(config)
 
     output = OptionGroup(parser, "Output Options")
-    output.add_option("-n", "--no-random",
-                      action="store_false", dest="rand", default=True,
-                      help="print one quote for one particular day")
+    output.add_option("-r", "--random",
+                      action="store_true", dest="rand", default=False,
+                      help="print random quotes")
     parser.add_option_group(output)
 
     return parser

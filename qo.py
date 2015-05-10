@@ -10,7 +10,7 @@ from optparse import OptionParser, OptionGroup
 from subprocess import call
 
 def PrintErrMsg(msg):
-    print msg
+    print(msg)
     sys.exit(1)
 
 def _random_line(quotefile):
@@ -71,8 +71,7 @@ class QuoteDict(object):
                 my_quote = _quote_from_quoteline(qline)
         else:
             PrintErrMsg("Quote file not found!")
-        print my_quote['content']
-        print "|", my_quote['author']
+        print(my_quote['content']+"\n| "+my_quote['author'])
 
     def sort_quote(self):
         "Sort quotes using UNIX command sort"
@@ -129,7 +128,7 @@ def _main():
     qd = QuoteDict(quotedir=options.quotedir, name=options.name)
     if options.sort:
         qd.sort_quote()
-        print "Quotes sorted!"
+        print("Quotes sorted!")
     elif options.edit:
         qd.edit_quote(editor=options.editor)
     else:
